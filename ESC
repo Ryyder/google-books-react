@@ -1,0 +1,173 @@
+[1mdiff --git a/client/src/components/Nav/index.js b/client/src/components/Nav/index.js[m
+[1mindex bf61e73..cdfb367 100644[m
+[1m--- a/client/src/components/Nav/index.js[m
+[1m+++ b/client/src/components/Nav/index.js[m
+[36m@@ -14,7 +14,7 @@[m [mfunction Nav() {[m
+           <a className="nav-link" href="/">Search</a>[m
+         </li>[m
+         <li className="nav-item">[m
+[31m-          <a className="nav-link" href="/api/books">Saved</a>[m
+[32m+[m[32m          <a className="nav-link" href="/saved">Saved</a>[m
+         </li>[m
+       </ul>[m
+     </div>[m
+[1mdiff --git a/client/src/components/SavedContainer/index.js b/client/src/components/SavedContainer/index.js[m
+[1mindex 3c5871b..1887f60 100644[m
+[1m--- a/client/src/components/SavedContainer/index.js[m
+[1m+++ b/client/src/components/SavedContainer/index.js[m
+[36m@@ -1,9 +1,70 @@[m
+ import React, { Component } from "react";[m
+[32m+[m[32mimport axios from "axios";[m
+[32m+[m[32mimport API from "../../utils/API"[m
+ [m
+[31m-function SavedContainer() {[m
+[31m-  return ([m
+[31m-<h1>Saved Books Go Here</h1>[m
+[31m-  );[m
+[32m+[m
+[32m+[m[32mclass SavedContainer extends Component {[m
+[32m+[m
+[32m+[m[32m  // state = {[m
+[32m+[m[32m  //   books: [],[m
+[32m+[m[32m  //   title: "",[m
+[32m+[m[32m  //   authors: "",[m
+[32m+[m[32m  //   description: "",[m
+[32m+[m[32m  //   image: "",[m
+[32m+[m[32m  //   infoLink: "",[m
+[32m+[m[32m  //   previewLink: ""[m
+[32m+[m[32m  // };[m
+[32m+[m
+[32m+[m[32m  constructor(props) {[m
+[32m+[m[32m    super(props);[m
+[32m+[m[32m    this.state = { books: [] };[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  componentDidMount() {[m
+[32m+[m[32m    this.loadBooks();[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  loadBooks = () => {[m
+[32m+[m[32m    axios.get("/api/books")[m
+[32m+[m[32m      .then(res => this.setState({ books: res.data }))[m
+[32m+[m[32m      // console.log(res.data[0].title)[m
+[32m+[m[32m      .catch(err => console.log(err));[m
+[32m+[m[32m  };[m
+[32m+[m
+[32m+[m[32m  deleteBook = id => {[m
+[32m+[m[32m    axios.delete("/api/books/" + id)[m
+[32m+[m[32m      .then(res => this.loadBooks())[m
+[32m+[m[32m      .catch(err => console.log(err));[m
+[32m+[m[32m  };[m
+[32m+[m
+[32m+[m
+[32m+[m[32m  render() {[m
+[32m+[m[32m    //console.log(this.state.books)[m
+[32m+[m[32m    let bookList = this.state.books || {};[m
+[32m+[m[32m    //console.log(bookList)[m
+[32m+[m[32m    return ([m
+[32m+[m[32m      <>[m
+[32m+[m[32m        <span>{bookList.map( object => {[m
+[32m+[m[32m          console.log(object)[m
+[32m+[m[32m          return ([m
+[32m+[m[32m            <>[m
+[32m+[m[32m              <div key={object._id} data={object}>[m
+[32m+[m[32m                <h1>{object.title}</h1>[m
+[32m+[m[32m                <h2>{object.authors}</h2>[m
+[32m+[m[32m                <img src={object.image} alt="book" />[m
+[32m+[m[32m                <p >{object.description}</p>[m
+[32m+[m[32m                <span>[m
+[32m+[m[32m                  <a href={object.previewLink}><span>Preview Link </span></a>|[m
+[32m+[m[32m                        <a href={object.infoLink}><span> Info Link </span></a>|[m
+[32m+[m[32m                  {/* <span onClick={() => deleteBook(id)}> Delete</span> */}[m
+[32m+[m[32m                </span>[m
+[32m+[m[32m              </div>[m
+[32m+[m[32m            </>[m
+[32m+[m[32m          )[m
+[32m+[m[32m        })}</span>[m
+[32m+[m[32m      </>[m
+[32m+[m[32m    )[m
+[32m+[m[32m  }[m
+ }[m
+ [m
+ export default SavedContainer;[m
+\ No newline at end of file[m
+[1mdiff --git a/client/src/components/SearchContainer/index.js b/client/src/components/SearchContainer/index.js[m
+[1mindex 9cde52b..bc3e11e 100644[m
+[1m--- a/client/src/components/SearchContainer/index.js[m
+[1m+++ b/client/src/components/SearchContainer/index.js[m
+[36m@@ -38,9 +38,3 @@[m [mfunction SearchContainer(props) {[m
+ [m
+ export default SearchContainer;[m
+ [m
+[31m-//items.volumeInfo.title[m
+[31m-//items.volumeInfo.authors[m
+[31m-//items.volumeInfo.description[m
+[31m-//items.volumeInfo.imageLinks.thumbnail[m
+[31m-//items.volumeInfo.previewLink[m
+[31m-//items.volumeInfo.infoLink[m
+[1mdiff --git a/client/src/pages/Books.js b/client/src/pages/Books.js[m
+[1mindex cca0bbd..7362e5b 100644[m
+[1m--- a/client/src/pages/Books.js[m
+[1m+++ b/client/src/pages/Books.js[m
+[36m@@ -46,13 +46,13 @@[m [mclass Books extends Component {[m
+     API.searchBooks(this.state.title)[m
+       .then(res => {[m
+         this.setState({books:res.data.items});[m
+[31m-        console.log([m
+[31m-          res.data.items[0].volumeInfo.title, [m
+[31m-          res.data.items[0].volumeInfo.authors, [m
+[31m-          res.data.items[0].volumeInfo.description,[m
+[31m-          res.data.items[0].volumeInfo.imageLinks.thumbnail,[m
+[31m-          res.data.items[0].volumeInfo.previewLink,[m
+[31m-          res.data.items[0].volumeInfo.infoLink);[m
+[32m+[m[32m        // console.log([m
+[32m+[m[32m        //   res.data.items[0].volumeInfo.title,[m[41m [m
+[32m+[m[32m        //   res.data.items[0].volumeInfo.authors,[m[41m [m
+[32m+[m[32m        //   res.data.items[0].volumeInfo.description,[m
+[32m+[m[32m        //   res.data.items[0].volumeInfo.imageLinks.thumbnail,[m
+[32m+[m[32m        //   res.data.items[0].volumeInfo.previewLink,[m
+[32m+[m[32m        //   res.data.items[0].volumeInfo.infoLink);[m
+           [m
+       } )[m
+       .catch(err => console.log(err))[m
+[1mdiff --git a/client/src/pages/Saved.js b/client/src/pages/Saved.js[m
+[1mindex e56b5af..42d6b6a 100644[m
+[1m--- a/client/src/pages/Saved.js[m
+[1m+++ b/client/src/pages/Saved.js[m
+[36m@@ -1,6 +1,33 @@[m
+[31m-import React from 'react';[m
+[32m+[m[32mimport React, { Component } from "react";[m
+[32m+[m[32mimport Jumbotron from "../components/Jumbotron";[m
+[32m+[m[32mimport SavedContainer from "../components/SavedContainer";[m
+ [m
+ [m
+[31m-const Saved = props =><div>Saved</div>;[m
+[32m+[m[32mclass Saved extends Component {[m
+[32m+[m
+[32m+[m[32m    state = {[m
+[32m+[m[32m        books: [],[m
+[32m+[m[32m        title: "",[m
+[32m+[m[32m        authors: "",[m
+[32m+[m[32m        description: "",[m
+[32m+[m[32m        image: "",[m
+[32m+[m[32m        infoLink: "",[m
+[32m+[m[32m        previewLink: ""[m
+[32m+[m[32m      };[m
+[32m+[m
+[32m+[m[32m      render() {[m
+[32m+[m[32m        return ([m
+[32m+[m[32m            <div className="container-fluid">[m
+[32m+[m[32m                <div className="row">[m
+[32m+[m[32m                    <div className="col">[m
+[32m+[m[32m                        <Jumbotron />[m
+[32m+[m[32m                        <SavedContainer resuls={this.state.books} />[m
+[32m+[m[32m                    </div>[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m        )[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+[32m+[m
+ [m
+ export default Saved;[m
+\ No newline at end of file[m

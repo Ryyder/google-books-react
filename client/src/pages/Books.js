@@ -16,6 +16,7 @@ class Books extends Component {
     previewLink: ""
   };
 
+  //handle our forms
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
@@ -23,9 +24,11 @@ class Books extends Component {
     });
   };
 
+  //form submit handler
   handleFormSubmit = event => {
 
     event.preventDefault();
+    //call our searchbooks api query
     API.searchBooks(this.state.title)
       .then(res => {
         this.setState({ books: res.data.items });

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Jumbotron from "../components/Jumbotron";
 import SavedContainer from "../components/SavedContainer";
 
-
+//our saved class component
 class Saved extends Component {
 
     state = {

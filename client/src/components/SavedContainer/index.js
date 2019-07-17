@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-
+//our savedcontainer class
 class SavedContainer extends Component {
 
   constructor(props) {
@@ -9,17 +9,19 @@ class SavedContainer extends Component {
     this.state = { books: [] };
   }
 
+  //on page load, load all the saved books
   componentDidMount() {
     this.loadBooks();
   }
 
+  //load our books
   loadBooks = () => {
     axios.get("/api/books")
       .then(res => this.setState({ books: res.data }))
-      // console.log(res.data[0].title)
       .catch(err => console.log(err));
   };
 
+  //delete book by id call
   deleteBook = id => {
     axios.delete("/api/books/" + id)
       .then(res => this.loadBooks())
@@ -28,9 +30,8 @@ class SavedContainer extends Component {
 
 
   render() {
-    //console.log(this.state.books)
     let bookList = this.state.books || {};
-    //console.log(bookList)
+
     return (
       <>
         <span>{bookList.map( object => {

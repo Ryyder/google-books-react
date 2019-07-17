@@ -21,7 +21,7 @@ class Saved extends Component {
                 <div className="row">
                     <div className="col">
                         <Jumbotron />
-                        <SavedContainer resuls={this.state.books} />
+                        <SavedContainer results={this.state.books} />
                     </div>
                 </div>
             </div>

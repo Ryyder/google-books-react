@@ -4,16 +4,6 @@ import axios from "axios";
 
 class SavedContainer extends Component {
 
-  // state = {
-  //   books: [],
-  //   title: "",
-  //   authors: "",
-  //   description: "",
-  //   image: "",
-  //   infoLink: "",
-  //   previewLink: ""
-  // };
-
   constructor(props) {
     super(props);
     this.state = { books: [] };

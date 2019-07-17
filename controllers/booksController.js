@@ -1,7 +1,8 @@
 const db = require("../models");
 
-// Defining methods for the booksController
+// our book controller methods
 module.exports = {
+  //find all books
   findAll: function(req, res) {
     db.Book
       .find(req.query)
@@ -9,25 +10,28 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  //find book by id
   findById: function(req, res) {
     db.Book
       .findById(req.params.id)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  //save book into db
   create: function(req, res) {
-    console.log('This is what exactly is going in',req.body);
     db.Book
       .create(req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  //update book
   update: function(req, res) {
     db.Book
       .findOneAndUpdate({ _id: req.params.id }, req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  //remove book from db
   remove: function(req, res) {
     db.Book
       .findById({ _id: req.params.id })

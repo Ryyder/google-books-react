@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+//we define our book schema
 const bookSchema = new Schema({
   title: { type: String, required: true },
   authors: [String],

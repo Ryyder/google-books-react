@@ -1,3 +1,7 @@
 .bg-primary {
     background-color: black !important;
 }
+
+.nav-link {
+    margin-left: 50%;
+}

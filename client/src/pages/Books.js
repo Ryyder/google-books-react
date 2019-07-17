@@ -4,6 +4,7 @@ import SearchContainer from "../components/SearchContainer";
 import API from "../utils/API";
 import { Input, FormBtn } from "../components/Form";
 
+//our Books class
 class Books extends Component {
   state = {
     books: [],
@@ -14,10 +15,6 @@ class Books extends Component {
     infoLink: "",
     previewLink: ""
   };
-
-  componentDidMount() {
-
-  }
 
   handleInputChange = event => {
     const { name, value } = event.target;
